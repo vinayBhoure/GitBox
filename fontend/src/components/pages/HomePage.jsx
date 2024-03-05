@@ -23,8 +23,6 @@ function HomePage() {
         const res2 = await repoResult.json();
         setUserRepos(res2);
 
-        console.log(userProfile);
-        console.log(userRepos);
       }catch(err){
           toast.error(err);
       }finally{
