@@ -10,7 +10,7 @@ function HomePage() {
   const [userProfile, setUserProfile] = useState(null);
   const [userRepos, setUserRepos] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [sortType, setSortType] = useState("forks");
+  const [sortType, setSortType] = useState("recent");
 
   const getUserProfile = useCallback(async (userName = "vinayBhoure") => {
     setLoading(true);
@@ -25,7 +25,7 @@ function HomePage() {
       const res2 = await repoResult.json();
       setUserRepos(res2);
 
-      return { res, res2 };
+      return { userProfile: res, userRepos: res2 };
     } catch (err) {
       toast.error(err.message);
     } finally {
@@ -44,16 +44,31 @@ function HomePage() {
     setUserProfile(null);
     setUserRepos([]);
 
-    const { res, res2 } = await getUserProfile(userName);
-    setUserProfile(res);
-    setUserRepos(res2);
+    const { userProfile, userRepos } = await getUserProfile(userName);
+    setUserProfile(userProfile);
+    setUserRepos(userRepos);
     setLoading(false);
+    setSortType("recent")
   };
+
+  const onSort = (sortType) => {
+    if(sortType == recent){
+      setUserRepos(userRepos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
+    }
+    else if(sortType == forks){
+      setUserRepos(userRepos.sort((a, b) => b.forks - a.forks));
+    }
+    else if(sortType == stars){
+      setUserRepos(userRepos.sort((a, b) => b.stargazers_count - a.stargazers_count));
+    }
+    setSortType(sortType);
+    setUserRepos([...userRepos]);
+  }
 
   return (
     <div className="m-4">
       <Search onSearch={onSearch} />
-      <SortRepo />
+      <SortRepo onSort={onSort} sortType={sortType}/>
       <div className="flex flex-col lg:flex-row gap-4 justify-center items-start">
         {userProfile && !loading && <Profile userProfile={userProfile} />}
         {!loading && <Repos userRepos={userRepos} />}
