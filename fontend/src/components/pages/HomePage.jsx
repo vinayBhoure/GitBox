@@ -16,12 +16,22 @@ function HomePage() {
     setLoading(true);
     try {
       const userResult = await fetch(
-        `https://api.github.com/users/${userName}`
+        `https://api.github.com/users/${userName}`,
+        {
+          headers:{
+            authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`
+          }
+        }
       );
       const res = await userResult.json();
       setUserProfile(res);
 
-      const repoResult = await fetch(res.repos_url);
+      const repoResult = await fetch(res.repos_url,
+        {
+          headers:{
+            authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`
+          }
+        });
       const res2 = await repoResult.json();
       setUserRepos(res2);
 
