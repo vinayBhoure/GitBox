@@ -62,18 +62,16 @@ function HomePage() {
   };
 
   const onSort = (sortType) => {
-    if(sortType == recent){
-      setUserRepos(userRepos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
-    }
-    else if(sortType == forks){
-      setUserRepos(userRepos.sort((a, b) => b.forks - a.forks));
-    }
-    else if(sortType == stars){
-      setUserRepos(userRepos.sort((a, b) => b.stargazers_count - a.stargazers_count));
-    }
-    setSortType(sortType);
-    setUserRepos([...userRepos]);
-  }
+		if (sortType === "recent") {
+			userRepos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+		} else if (sortType === "stars") {
+			userRepos.sort((a, b) => b.stargazers_count - a.stargazers_count); 
+		} else if (sortType === "forks") {
+			userRepos.sort((a, b) => b.forks_count - a.forks_count); 
+		}
+		setSortType(sortType);
+		setUserRepos([...userRepos]);
+	};
 
   return (
     <div className="m-4">
