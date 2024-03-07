@@ -1,4 +1,5 @@
  const express = require('express');
+ const connectMongoDB = require('./config/connectMongoDB');
 // import express from 'express';
  const app = express();
 
@@ -21,10 +22,15 @@ app.get('/', (req, res) => {
 
 const userRoutes = require('./routes/userRoute');
 const exploreRoutes = require('./routes/exploreRoute');
+const authRoute = require('./routes/authRoute');
+
 app.use('/api/users', userRoutes);
 app.use('/api/explore', exploreRoutes);
+app.use('/api/auth', authRoute);
+
 
 // listening to server
 app.listen(PORT, () =>{
     console.log(`Server is running on port ${PORT}`);
+    connectMongoDB();
 })
