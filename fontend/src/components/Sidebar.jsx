@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Logout from "./Logout";
-
+import { userAuth } from "../context/AuthContext";
 import { IoHomeSharp } from "react-icons/io5";
 import { FaHeart } from "react-icons/fa";
 import { MdOutlineExplore } from "react-icons/md";
@@ -9,7 +9,7 @@ import { MdEditDocument } from "react-icons/md";
 import { VscSignIn } from "react-icons/vsc";
 
 function Sidebar() {
-  const authUser = true;
+  const {authUser} = userAuth();
 
   return (
     <aside

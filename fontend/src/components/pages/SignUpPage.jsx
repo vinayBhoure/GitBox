@@ -5,6 +5,10 @@ import { FaUnlockAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 function SignUpPage() {
+
+  const signUpHandler = () => {
+    window.open("http://localhost:5000/auth/github", "_self");
+  }
   return (
     <div
       className="
@@ -25,7 +29,9 @@ function SignUpPage() {
         type="button"
         className="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4
         focus:ring-[#24292F]/50 font-medium rounded-lg flex gap-2 p-2 items-center
-        w-full text-center justify-center" >
+        w-full text-center justify-center" 
+        onClick={signUpHandler}
+        >
          <FaGithubAlt className="w-5 h-5"/>
          SignUp with GitHub Account
         </button>
