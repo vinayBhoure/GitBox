@@ -15,27 +15,15 @@ function HomePage() {
   const getUserProfile = useCallback(async (userName = "vinayBhoure") => {
     setLoading(true);
     try {
-      const userResult = await fetch(
-        `https://api.github.com/users/${userName}`,
-        {
-          headers:{
-            authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`
-          }
-        }
-      );
-      const res = await userResult.json();
-      setUserProfile(res);
+      const result = await fetch(`/api/users/profile/${userName}`);
+      const res = await result.json();
+      const user = res.userData;
+      const repos = res.reposData;
 
-      const repoResult = await fetch(res.repos_url,
-        {
-          headers:{
-            authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`
-          }
-        });
-      const res2 = await repoResult.json();
-      setUserRepos(res2);
+      setUserProfile(user);
+      setUserRepos(repos);
 
-      return { userProfile: res, userRepos: res2 };
+      return { userProfile: user, userRepos: repos };
     } catch (err) {
       toast.error(err.message);
     } finally {

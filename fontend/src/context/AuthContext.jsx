@@ -1,34 +1,37 @@
 import React, { createContext, useContext } from 'react';
+import {toast} from 'react-hot-toast';
+import { useState, useEffect } from 'react';
 
 
 export const AuthContext = createContext();
 
-export const userAuth = () => {
+export const useAuthContext = () => {
     return useContext(AuthContext);
 }
 
-export const AuthProvider = ({ children }) => {
+export const AuthContextProvider = ({ children }) => {
 
     const [authUser, setAuthUser] = useState(null);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const checkAuth = async () => {
+        const checkUserLoggedIn = async () => {
             setLoading(true);
             try{
                 const res = await fetch('/api/auth/check', {credentials: 'include'});
-            const data = await res.json();
-            setAuthUser(data.user);
+                const data = await res.json();
+                setAuthUser(data.user);
+                console.log("data -> ", data);
             }catch(err){
-                toast.error(error.message);
+                toast.error(err.message);
             }finally{
                 setLoading(false);
             }
         }
-        checkAuth();
+        checkUserLoggedIn();
     }, []);
         return (
-            <AuthContext.Provider value={{ authUser, setAuthUser}}>
+            <AuthContext.Provider value={{authUser, setAuthUser, loading}}>
                 {children}
             </AuthContext.Provider>
         )

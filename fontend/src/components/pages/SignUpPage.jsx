@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 function SignUpPage() {
 
   const signUpHandler = () => {
-    window.open("http://localhost:5000/auth/github", "_self");
+    window.open("/api/auth/github", "_self");
   }
   return (
     <div
